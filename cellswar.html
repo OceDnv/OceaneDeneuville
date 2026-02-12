@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CellsWar - Océane Deneuville</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0e14;
+            --text: #e6e8eb;
+            --accent: #ff6b35;
+            --accent-2: #00d9ff;
+            --accent-3: #7fff00;
+            --muted: #4a5568;
+        }
+
+        body {
+            font-family: 'DM Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            transform: translateX(-5px);
+        }
+
+        .project-nav {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .project-hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-hero::before {
+            content: 'CELLSWAR';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(8rem, 20vw, 15rem);
+            color: rgba(255, 255, 255, 0.02);
+            z-index: 0;
+        }
+
+        .project-hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+        }
+
+        .project-title-main {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            line-height: 0.9;
+            margin: 1rem 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-subtitle {
+            font-size: 1.3rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin-top: 1rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+
+        .meta-value {
+            font-size: 1rem;
+        }
+
+        .project-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .content-section {
+            margin-bottom: 6rem;
+        }
+
+        .section-header {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--accent-2);
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .section-header::before {
+            content: '//';
+            position: absolute;
+            left: 0;
+            color: var(--muted);
+        }
+
+        .text-content {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text);
+            max-width: 800px;
+        }
+
+        .text-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(0, 217, 255, 0.05);
+            border-left: 4px solid var(--accent-2);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-2);
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .feature-list li {
+            padding: 1rem 0 1rem 2.5rem;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .feature-list li:hover {
+            padding-left: 3rem;
+            color: var(--accent);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin: 3rem 0;
+        }
+
+        .col h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 2rem 0;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: rgba(127, 255, 0, 0.1);
+            border: 1px solid var(--accent-3);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .image-container:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .image-caption {
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .next-project {
+            margin-top: 6rem;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .next-project h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .next-project-link {
+            display: inline-block;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .next-project-link:hover {
+            color: var(--accent-2);
+            transform: translateX(10px);
+        }
+
+        @media (max-width: 768px) {
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back-link">← Retour au menu</a>
+        <div class="project-nav">Projet 03/04</div>
+    </nav>
+
+    <section class="project-hero">
+        <div class="project-hero-content">
+            <div class="project-number">PROJET 03</div>
+            <h1 class="project-title-main">CELLSWAR</h1>
+            <p class="project-subtitle">
+                TOY immersif dans un écosystème cellulaire vivant où vous luttez contre la contamination.
+            </p>
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Année</span>
+                    <span class="meta-value">2025 - 2ème année ICAN</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Équipe</span>
+                    <span class="meta-value">3 personnes</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Rôle</span>
+                    <span class="meta-value">Game Design / Sound Design / Prog (mouvement)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Moteur</span>
+                    <span class="meta-value">Unity / C#</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="project-content">
+        <!-- Vue d'ensemble -->
+        <section class="content-section">
+            <h2 class="section-header">Vue d'ensemble</h2>
+            <div class="text-content">
+                <p>
+                    CellsWar est un TOY top-down 3D réalisé en équipe de 3 sur Unity. Vous incarnez un lymphocyte qui évolue
+                    dans un organisme en guerre, avec pour mission d'empêcher la contamination totale des cellules neutres.
+                    Le projet explore le thème du "Cycle" à travers un écosystème cellulaire vivant où contamination et
+                    assainissement s'affrontent.
+                </p>
+                <p>
+                    Le gameplay repose sur la fluidité des déplacements, un système de dash nerveux et réactif, et une
+                    mécanique de capture inspirée d'Agar.io. L'univers organique crée une atmosphère
+                    immersive renforcée par un sound design travaillé sur FL Studio, Logic Pro et intégré via FMOD.
+                </p>
+            </div>
+            <div class="tags-container">
+                <span class="tag">TOY</span>
+                <span class="tag">Top-down 3D</span>
+                <span class="tag">Unity</span>
+                <span class="tag">Écosystème</span>
+                <span class="tag">War zone</span>
+            </div>
+        </section>
+
+        <!-- Mécaniques de jeu -->
+        <section class="content-section">
+            <h2 class="section-header">Mécaniques de jeu</h2>
+            <div class="highlight-box">
+                <h3>Un écosystème vivant</h3>
+                <p>
+                    Le cœur du gameplay repose sur un système d'écosystème où trois types de cellules interagissent :
+                    les cellules neutres (à protéger), les ennemis contaminants, et les alliés gardiens. Chaque entité
+                    réagit aux autres et modifie constamment l'état du jeu.
+                </p>
+            </div>
+            <ul class="feature-list">
+                <li><strong>Dash fluide :</strong> Mécanique centrale permettant de se déplacer rapidement, assainir les cellules, attaquer les ennemis</li>
+                <li><strong>Système de capture :</strong> Le joueur et les Messagères peuvent capturer les cellules neutres, changeant leur état et leurs fonctions</li>
+                <li><strong>Trois types d'ennemis :</strong> Messagères (contaminent), Chasseuses (attaquent le joueur), Gardiennes (alliées qui protègent)</li>
+                <li><strong>Gameplay émergent :</strong> Les interactions entre entités créent des situations tactiques variées</li>
+                <li><strong>Tension système :</strong> Sans intervention, toutes les cellules tendent vers la contamination totale</li>
+            </ul>
+        </section>
+
+        <!-- Ma contribution -->
+        <section class="content-section">
+            <h2 class="section-header">Ma contribution</h2>
+            <div class="two-col">
+                <div class="col">
+                    <h3>Game Design & Programming</h3>
+                    <ul class="feature-list">
+                        <li>J'ai conçu les mécaniques principales du système d'écosystème</li>
+                        <li>J'ai designé les interactions entre les différentes entités</li>
+                        <li>J'ai programmé le système de déplacement du joueur en C#</li>
+                        
+                        <li>J'ai participé à l'équilibrage du gameplay</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3>Sound Design (FMOD)</h3>
+                    <ul class="feature-list">
+                        <li>J'ai composé les musiques sur FL Studio et Logic Pro</li>
+                        <li>J'ai créé tous les effets sonores dans Reaper (textures liquides, organiques)</li>
+                        <li>J'ai intégré le tout dans Unity via FMOD pour un environnement sonore réactif</li>
+                        <li>J'ai cherché à créer une ambiance organique, fluide</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box" style="margin-top: 3rem;">
+                <h3>Inspirations principales</h3>
+                <p>
+                    <strong>Game Design :</strong> Agar.io (mécanique de capture), Nidus/Warframe (écosystème vivant + dash fluide)
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Direction Artistique :</strong> Metroid Prime, Spore (phase cellulaire), Plague Inc (formes organiques)
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Sound Design :</strong> Slime Rancher (organique), Count Master (lisibilité), Spore (ambiance fluide)
+                </p>
+            </div>
+        </section>
+
+        <!-- Visuels -->
+        <section class="content-section">
+            <h2 class="section-header">Visuels du projet</h2>
+            <div class="image-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="image-container">
+                    <img src="images/cellswar/cellswar-screen1.png" alt="Screenshot 1">
+                    <div class="image-caption">Capture d'écran du gameplay</div>
+                </div>
+                <div class="image-container">
+                    <img src="images/cellswar/cellswar-screen2.png" alt="Screenshot 2">
+                    <div class="image-caption">Capture d'écran du gameplay</div>
+                </div>
+            </div>
+            <div class="image-container" style="margin-top: 2rem;">
+                <video controls style="width: 100%; height: 400px;">
+                    <source src="images/cellswar/cellswar-video.mp4" type="video/mp4">
+                </video>
+                <div class="image-caption">Vidéo de gameplay</div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="next-project">
+            <h3>Projet suivant</h3>
+            <a href="trap-game.html" class="next-project-link">Trap Game →</a>
+        </div>
+    </div>
+</body>
+</html>
