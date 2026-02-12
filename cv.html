@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Océane Deneuville - CV Game Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0e14;
+            --text: #e6e8eb;
+            --accent: #ff6b35;
+            --accent-2: #00d9ff;
+            --accent-3: #7fff00;
+            --muted: #4a5568;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .particle, .custom-cursor, .click-effect {
+                display: none !important;
+            }
+            .cv-container {
+                page-break-inside: avoid;
+            }
+        }
+
+        body {
+            font-family: 'DM Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            cursor: crosshair;
+            padding: 0;
+            margin: 0;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+
+        .cv-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            letter-spacing: 3px;
+            animation: glitchSlide 3s ease-in-out infinite;
+        }
+
+        @keyframes glitchSlide {
+            0%, 100% { transform: translateX(0); }
+            33% { transform: translateX(3px); }
+            66% { transform: translateX(-3px); }
+        }
+
+        .header h2 {
+            font-family: 'DM Mono', monospace;
+            font-size: 1.3rem;
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info span {
+            transition: color 0.3s ease;
+        }
+
+        .contact-info span:hover {
+            color: var(--accent-3);
+        }
+
+        .intro {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-style: italic;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 2rem;
+            
+        }
+
+        .section-title::before {
+            content: '//';
+            position: absolute;
+            left: -0.5rem;
+            color: var(--muted);
+            font-size: 1.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) rotate(0.5deg);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(255, 107, 53, 0.15);
+        }
+
+        /* Project Card */
+        .project-card {
+            margin-bottom: 2rem;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+
+        .project-date {
+            font-size: 0.85rem;
+            color: var(--accent-2);
+            opacity: 0.8;
+        }
+
+        .project-role {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 0.8rem;
+        }
+
+        .project-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            margin-bottom: 1rem;
+        }
+
+        .skill-category h4 {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-category h4::before {
+            content: '▸';
+            color: var(--accent-2);
+        }
+
+        .skill-category p {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* Education & Experience */
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--muted);
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .timeline-item h4 {
+            color: var(--text);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+        }
+
+        .timeline-item .date {
+            color: var(--accent-2);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item p {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* Languages */
+        .languages {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .language-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .language-level {
+            color: var(--accent-3);
+            font-size: 0.85rem;
+        }
+
+        /* Passions */
+        .passions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .passion-item {
+            color: var(--text);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .passion-item::before {
+            content: '▸';
+            color: var(--accent-3);
+        }
+
+        /* Full Width Sections */
+        .full-width-section {
+            margin-bottom: 3rem;
+        }
+
+        /* Click Effect */
+        .click-effect {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            animation: clickExpand 0.6s ease-out;
+            z-index: 9999;
+        }
+
+        @keyframes clickExpand {
+            0% {
+                width: 10px;
+                height: 10px;
+                opacity: 1;
+            }
+            100% {
+                width: 50px;
+                height: 50px;
+                opacity: 0;
+            }
+        }
+
+        /* Tag-like style for skills */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(255, 107, 53, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 14, 20, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <a href="index.html" style="color: var(--text); text-decoration: none; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
+            ← Retour au menu
+        </a>
+        <span style="color: var(--muted); font-size: 0.85rem;">Curriculum Vitae</span>
+    </nav>
+
+    <div class="cv-container" style="padding-top: 5rem;">
+        <!-- Header -->
+        <div class="header">
+            <h1>OCÉANE DENEUVILLE</h1>
+            <h2>GAME DESIGNER • EN RECHERCHE DE STAGE DE TELLE A TELLE DATE</h2>
+            <div class="contact-info">
+                <div><strong>Email</strong> <a href="mailto:o.deneuville@myskolae.fr">o.deneuville@myskolae.fr</a></div>
+                <span>📱 06 52 55 64 52</span>
+                <span>📍 Paris 19e</span>
+                <span>🚗 Permis B</span>
+            </div>
+            <p class="intro">
+                Issue d'un parcours littéraire enrichi d'études de philosophie, je m'intéresse autant à la narration qu'aux mécaniques de jeu. 
+                Mon univers est nourri par le cinéma, la musique et les jeux qui cherchent à transmettre une émotion ou une idée forte.
+            </p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Formation Section -->
+                <div class="full-width-section">
+                    <h3 class="section-title">FORMATION</h3>
+                    
+                    <div class="card">
+                        <div class="timeline-item">
+                            <h4>Bachelor en Game Design</h4>
+                            <p class="date">ICAN Paris • 2024 - Aujourd'hui</p>
+                            <p>Game design • Game Studies • Sound design • C# • Unity • Construct 3 • Level design </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="timeline-item">
+                            <h4>Licence de Philosophie (L1-L2)</h4>
+                            <p class="date">Sorbonne Paris 1 • 2022 - 2024</p>
+                            <p>Approche analytique appliquée au game design</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétences Section -->
+                <div class="full-width-section">
+                    <h3 class="section-title">COMPÉTENCES</h3>
+                    
+                    <div class="card">
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4>Moteurs de jeu</h4>
+                                <p>Unity • Construct 3 • Godot</p>
+                            </div>
+
+                            <div class="skill-category">
+                                <h4>Logiciels</h4>
+                                <p>Blender • Notion • Suite Adobe (Illustrator, Photoshop, InDesign)</p>
+                            </div>
+
+                            <div class="skill-category">
+                                <h4>Programming</h4>
+                                <p>C#</p>
+                            </div>
+
+                            <div class="skill-category">
+                                <h4>Sound Design</h4>
+                                <p>FMOD • Reaper • Logic Pro • FL Studio   </p>
+                            </div>
+
+                            <div class="skill-category">
+                                <h4>Documentation</h4>
+                                <p>GOD • GDD • RGD</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Langues Section -->
+                <div class="full-width-section">
+                    <h3 class="section-title">LANGUES</h3>
+                    
+                    <div class="card">
+                        <div class="languages">
+                            <div class="language-item">
+                                <span class="language-name">Français</span>
+                                <span class="language-level">Langue maternelle</span>
+                            </div>
+                            <div class="language-item">
+                                <span class="language-name">Anglais</span>
+                                <span class="language-level">C1 (courant)</span>
+                            </div>
+                            <div class="language-item">
+                                <span class="language-name">Espagnol</span>
+                                <span class="language-level">B1 (intermédiaire)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passions Section -->
+                <div class="full-width-section">
+                    <h3 class="section-title">PASSIONS</h3>
+                    
+                    <div class="card">
+                        <div class="passions-list">
+                            <div class="passion-item">Jeux vidéo narratifs</div>
+                            <div class="passion-item">Pratique du piano et de la guitare</div>
+                            <div class="passion-item">Cinéma (Dolan, Chazelle…)</div>
+                            <div class="passion-item">Pratique du basket</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Projets Section -->
+                <div class="full-width-section">
+                    <h3 class="section-title">PROJETS</h3>
+                    
+                    <div class="card project-card">
+                        <div class="project-header">
+                            <div>
+                                <h4 class="project-title">FISH FISH</h4>
+                                <p class="project-date">2024</p>
+                            </div>
+                        </div>
+                        <p class="project-role">Game Design • Documentation • Direction Artistique</p>
+                        <p class="project-description">
+                            Puzzle game compétitif pour 2 à 4 joueurs. Conception des mécaniques de déplacement limité et du système 
+                            de placement de murs. Rédaction du GOD complet. Équilibrage et itérations multiples via playtests.
+                        </p>
+                    </div>
+
+                    <div class="card project-card">
+                        <div class="project-header">
+                            <div>
+                                <h4 class="project-title">SERVE AND PROTECT</h4>
+                                <p class="project-date">2024</p>
+                            </div>
+                        </div>
+                        <p class="project-role">Programming • Sound Design • Game Design  </p>
+                        <p class="project-description">
+                            Shoot 'em up 2D développé sur Construct 3. Programmation complète du gameplay, des vagues d'ennemis 
+                            et du système de score. Composition des musiques sur Logic Pro avec filtre 8-bit. Création de tous les effets sonores.
+                        </p>
+                    </div>
+
+                    <div class="card project-card">
+                        <div class="project-header">
+                            <div>
+                                <h4 class="project-title">CELLSWAR</h4>
+                                <p class="project-date">2025</p>
+                            </div>
+                        </div>
+                        <p class="project-role">Game Design • Sound Design • Programming</p>
+                        <p class="project-description">
+                            TOY top-down 3D sur Unity. Conception du système d'écosystème vivant et des interactions entre entités. 
+                            Programmation du système de déplacement joueur et mécanique de dash en C#. Sound design complet intégré via FMOD.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Expériences Section -->
+                <div class="full-width-section">
+                    <h3 class="section-title">EXPÉRIENCES</h3>
+                    
+                    <div class="card">
+                        <div class="timeline-item">
+                            <h4>Équipière Polyvalente</h4>
+                            <p class="date">McDonald's • 2023 (6 mois)</p>
+                            <p>Préparation des commandes • Service client en flux tendu • Maintien de la propreté et de l'hygiène</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="timeline-item">
+                            <h4>Stage d'observation</h4>
+                            <p class="date">Garde Républicaine • 2022 (1 mois)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Navigation -->
+        <div style="margin-top: 4rem; padding: 3rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1); text-align: center;">
+           
+            <a href="index.html" style="display: inline-block; font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--accent); text-decoration: none; transition: all 0.3s ease;">
+                ← Retour au menu
+            </a>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Curseur personnalisé
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Particules aléatoires
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 4 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Effet de clic
+        document.addEventListener('click', (e) => {
+            const effect = document.createElement('div');
+            effect.className = 'click-effect';
+            effect.style.left = e.clientX - 5 + 'px';
+            effect.s
